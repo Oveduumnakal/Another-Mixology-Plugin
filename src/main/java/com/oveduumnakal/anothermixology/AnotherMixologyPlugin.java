@@ -84,8 +84,6 @@ public class AnotherMixologyPlugin extends Plugin
 	private static final int PROC_MASTERING_MIXOLOGY_BUILD_REAGENTS = 7064;
 
 	private static final int VARBIT_POTION_ORDER_1 = VarbitID.MM_LAB_ORDER_1_TYPE;
-	static final int AGITATOR_QUICK_ACTION_CLICKS = 2;
-	static final int ALEMBIC_QUICK_ACTION_CLICKS = 1;
 	private static final int VARBIT_POTION_MODIFIER_1 = VarbitID.MM_LAB_ORDER_1_MODIFIER;
 	private static final int VARBIT_POTION_ORDER_2 = VarbitID.MM_LAB_ORDER_2_TYPE;
 	private static final int VARBIT_POTION_MODIFIER_2 = VarbitID.MM_LAB_ORDER_2_MODIFIER;
@@ -207,22 +205,6 @@ public class AnotherMixologyPlugin extends Plugin
 
 	private int agitatorQuickActionTicks = 0;
 	private int alembicQuickActionTicks = 0;
-
-	/**
-	 * Clicks the running lock still lets through in the current quick-action window, at most one per tick: one in the
-	 * Alembic's one-tick window and one in each tick of the Agitator's two-tick window. Spam clicks are consumed.
-	 */
-	private int agitatorQuickActionClicks = 0;
-	private int alembicQuickActionClicks = 0;
-	private int agitatorQuickActionClickTick = -1;
-	private int alembicQuickActionClickTick = -1;
-
-	/**
-	 * Whether the player's last click went to the Agitator or Alembic. Clicking anything else stops the work, so the
-	 * running lock only holds while this is set.
-	 */
-	private boolean agitatorOperated;
-	private boolean alembicOperated;
 
 	private boolean previouslyAboveRewardThreshold = false;
 
@@ -1118,10 +1100,7 @@ public class AnotherMixologyPlugin extends Plugin
 				&& action != MenuAction.GAME_OBJECT_THIRD_OPTION
 				&& action != MenuAction.GAME_OBJECT_FOURTH_OPTION
 				&& action != MenuAction.GAME_OBJECT_FIFTH_OPTION)
-		{
-			recordOperatedStation(null, action);
 			return;
-		}
 
 		if (isLeverBlocked(event.getId()) || isVesselBlocked(event.getId()))
 		{
@@ -1131,65 +1110,8 @@ public class AnotherMixologyPlugin extends Plugin
 
 		recordLeverPull(event.getId());
 		AlchemyObject station = StationGuard.stationFromTarget(event.getMenuTarget());
-		if (station != null && (isCapBlocked(station) || isLockBlocked(station) || isRunningLockBlocked(station)))
-		{
+		if (station != null && (isCapBlocked(station) || isLockBlocked(station)))
 			event.consume();
-			return;
-		}
-
-		recordQuickActionClick(station);
-		recordOperatedStation(station, action);
-	}
-
-	/**
-	 * Uses up the station's quick-action click for this tick when a click on it gets through during the window.
-	 */
-	private void recordQuickActionClick(AlchemyObject station)
-	{
-		if (station == AlchemyObject.AGITATOR && agitatorQuickActionTicks > 0 && agitatorQuickActionClicks > 0)
-		{
-			agitatorQuickActionClicks--;
-			agitatorQuickActionClickTick = client.getTickCount();
-		}
-
-		if (station == AlchemyObject.ALEMBIC && alembicQuickActionTicks > 0 && alembicQuickActionClicks > 0)
-		{
-			alembicQuickActionClicks--;
-			alembicQuickActionClickTick = client.getTickCount();
-		}
-	}
-
-	/**
-	 * Whether the quick-action window is up with a click left, and no click has gone through in it this tick yet.
-	 */
-	private boolean quickActionClickAllowed(int windowTicks, int clicksLeft, int lastClickTick)
-	{
-		return windowTicks > 0 && clicksLeft > 0 && lastClickTick != client.getTickCount();
-	}
-
-	/**
-	 * Remembers which station a let-through click went to. A click on a tile or another object stops the Agitator and
-	 * Alembic, so a paused station can be clicked again to resume. Interface clicks, such as minimising the chat box,
-	 * do not stop a station and leave the lock as it is.
-	 */
-	private void recordOperatedStation(AlchemyObject station, MenuAction action)
-	{
-		if (!isTileOrObjectClick(action))
-			return;
-
-		agitatorOperated = station == AlchemyObject.AGITATOR;
-		alembicOperated = station == AlchemyObject.ALEMBIC;
-	}
-
-	private static boolean isTileOrObjectClick(MenuAction action)
-	{
-		return action == MenuAction.WALK
-				|| action == MenuAction.GAME_OBJECT_FIRST_OPTION
-				|| action == MenuAction.GAME_OBJECT_SECOND_OPTION
-				|| action == MenuAction.GAME_OBJECT_THIRD_OPTION
-				|| action == MenuAction.GAME_OBJECT_FOURTH_OPTION
-				|| action == MenuAction.GAME_OBJECT_FIFTH_OPTION
-				|| action == MenuAction.WIDGET_TARGET_ON_GAME_OBJECT;
 	}
 
 	private boolean isLeverBlocked(int objectId)
@@ -1278,28 +1200,6 @@ public class AnotherMixologyPlugin extends Plugin
 		return !StationGuard.isStationNeeded(station, occupied, potionOrders, heldItemIds());
 	}
 
-	/**
-	 * Consumes Agitator and Alembic clicks while the player works the station, except for its quick-action clicks:
-	 * one per tick of the window, so one on the Alembic and two on the Agitator. A potion left in a station the player
-	 * walked away from does not count as running.
-	 */
-	private boolean isRunningLockBlocked(AlchemyObject station)
-	{
-		if (station == AlchemyObject.AGITATOR)
-			return StationGuard.runningLockBlocks(config.lockAgitatorWhileRunning(),
-					agitatorPotionType != null && agitatorOperated,
-					quickActionClickAllowed(agitatorQuickActionTicks, agitatorQuickActionClicks,
-							agitatorQuickActionClickTick));
-
-		if (station == AlchemyObject.ALEMBIC)
-			return StationGuard.runningLockBlocks(config.lockAlembicWhileRunning(),
-					alembicPotionType != null && alembicOperated,
-					quickActionClickAllowed(alembicQuickActionTicks, alembicQuickActionClicks,
-							alembicQuickActionClickTick));
-
-		return false;
-	}
-
 	private boolean isLockEnabled(AlchemyObject station)
 	{
 		if (station == AlchemyObject.ALEMBIC)
@@ -1348,9 +1248,7 @@ public class AnotherMixologyPlugin extends Plugin
 	 * Highlights a station's quick action when its spot animation appears.
 	 *
 	 * <p>The Alembic's quick action has a window of one tick and the Agitator's a window of two, so a counter goes
-	 * 0, 1 (and 2 for the Agitator) and the window closes on that station's next progress update. The window is
-	 * tracked even with the highlight off, because the running-station locks let a set number of clicks through
-	 * during it.
+	 * 0, 1 (and 2 for the Agitator) and the window closes on that station's next progress update.
 	 */
 	@Subscribe
 	public void onGraphicsObjectCreated(GraphicsObjectCreated event)
@@ -1361,8 +1259,6 @@ public class AnotherMixologyPlugin extends Plugin
 		if (spotAnimId == SPOT_ANIM_ALEMBIC && alembicPotionType != null)
 		{
 			alembicQuickActionTicks = 1;
-			alembicQuickActionClicks = ALEMBIC_QUICK_ACTION_CLICKS;
-			alembicQuickActionClickTick = -1;
 			if (highlight)
 			{
 				highlightObject(AlchemyObject.ALEMBIC, config.stationQuickActionHighlightColor());
@@ -1378,8 +1274,6 @@ public class AnotherMixologyPlugin extends Plugin
 		if (spotAnimId == SPOT_ANIM_AGITATOR && agitatorPotionType != null)
 		{
 			agitatorQuickActionTicks = 1;
-			agitatorQuickActionClicks = AGITATOR_QUICK_ACTION_CLICKS;
-			agitatorQuickActionClickTick = -1;
 			if (highlight)
 				highlightObject(AlchemyObject.AGITATOR, config.stationQuickActionHighlightColor());
 		}
