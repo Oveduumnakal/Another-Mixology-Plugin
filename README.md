@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="docs/img/00-banner.jpg" alt="Another Mixology Plugin banner" width="100%">
+</p>
 <h1 align="center">Another Mixology Plugin</h1>
 
 Another Mixology Plugin (AMP) is a RuneLite plugin for the Mastering Mixology minigame. Tell it which rewards you are saving resin for and it shows you which orders are worth brewing, how long each reward will take, and where to put a digweed when one spawns. It then walks you through the mixing itself — the next lever, the vessel, the station, the conveyor belt — and can block the clicks that would waste a paste or a potion. It builds on [Hexagon's Mastering Mixology plugin](https://github.com/hex-agon/mastering-mixology) and [PDBoegel's Mastering Mixology Extended](https://github.com/PDBoegel/mastering-mixology).
