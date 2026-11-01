@@ -14,7 +14,7 @@ repositories {
 }
 
 def runeLiteVersion = 'latest.release'
-def pluginMainClass = 'work.fking.masteringmixology.MasteringMixologyPluginTest'
+def pluginMainClass = 'com.oveduumnakal.anothermixology.AnotherMixologyPluginTest'
 
 dependencies {
 	compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
@@ -26,8 +26,8 @@ dependencies {
 	testImplementation group: 'com.google.inject.extensions', name: 'guice-testlib', version: '4.1.0'
 }
 
-group = 'work.fking.rlplugins'
-version = '2.0'
+group = 'com.oveduumnakal'
+version = '1.0'
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'
