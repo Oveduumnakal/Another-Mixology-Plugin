@@ -1,9 +1,14 @@
 # Changelog
 
-Releases from 2.0 on use their own version numbers, `Release X.Y`. Earlier entries tagged `V<upstream>-extX.Y.Z` are
-Extended-fork releases; the other entries are inherited from upstream.
+Another Mixology Plugin releases are numbered `X.Y` (milestone `Release X.Y`, tag `R-X.Y`). Entries below 1.0 are
+the history it inherits: `V<upstream>-extX.Y.Z` from Mastering Mixology Extended, the rest from Mastering Mixology.
 
-## 2.0
+## 1.0
+First release as Another Mixology Plugin, built from Mastering Mixology Extended V1.9.1-ext1.1.0. Changes from that
+version:
+* **New name and settings**: the plugin has its own settings group, so settings from Mastering Mixology or
+  Mastering Mixology Extended do not carry over. It can be installed alongside them, but turn one off so their
+  highlights do not overlap.
 * **Recommendation strategy** setting (top of the plugin settings). Choose how orders are coloured brew or
   skip: *Expected value* (new, default), *Bottleneck*, *Adaptive* (the previous policy) or *Greedy* (brew all 3).
   Expected value counts time, not just potions: each delivery costs 0.7 potions for the walk to the conveyor belt,
@@ -15,11 +20,7 @@ Extended-fork releases; the other entries are inherited from upstream.
 * **Retort quick-action colour**: while Concentrate clicks still help, the Retort is drawn in the quick-action colour,
   like the Agitator and Alembic; it returns to the station colour on the last tick.
 * **Reward tracking**: the potion packs, Aldarium and the Chugging Barrel use a single quantity setting, where 0 means
-  not tracked, instead of a tick box plus a quantity. Saved settings carry over.
-* **Lock Agitator / Alembic while running** (Misclick protection, off by default): consumes clicks on a running
-  station except during its quick-action window, which lets one click through on the Alembic and one per tick of
-  the Agitator's two-tick window. Clicking a tile or another object pauses the station, and the next click on it resumes; interface
-  clicks such as minimising the chat box keep the lock.
+  not tracked, instead of a tick box plus a quantity.
 * **Colors** section (was Accessibility), above Highlights. It holds *Use Letters* plus the paste, skip, station,
   quick-action and digweed colours.
   * Recipes are coloured blocks by default; *Use Letters* (off by default) shows M/A/L letters instead. It replaces
@@ -31,12 +32,12 @@ Extended-fork releases; the other entries are inherited from upstream.
 * **Recommendations are always on** once a reward is tracked; pick *Greedy* to skip nothing. The Recommended-Potion
   Highlight section and the recommend colours are removed.
 * **Highlights** section now holds the highlight toggles, without the "Highlight" prefix: *Levers*, *Next lever
-  only*, *Mixing vessel*, *Conveyor belt*, *Stations*, *Quick-action events* and *DigWeed*. Saved settings carry over.
+  only*, *Mixing vessel*, *Conveyor belt*, *Stations*, *Quick-action events* and *DigWeed*.
 * **Resin bars always show** in the goal overlay while a reward is tracked; the *Show Resin Bars* setting is
   removed.
 * **Hide orders panel** option (on by default): replaces the game's potion orders list with a plugin overlay.
 * **New defaults**: *Inventory Potion Tags* Colored, *Order sorting* Shortest Path, *Display resin amount*,
-  *Next lever only* and *Wait for full order* on. Settings you already saved keep their values.
+  *Next lever only* and *Wait for full order* on.
 * **Mixing guidance** (new, all toggles in the Highlights and Misclick protection sections). Walks you through the
   mixing half of the loop: levers, then vessel, then stations, then conveyor.
   * *Next lever only* — highlights just the lever for the next paste instead of all three.

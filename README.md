@@ -1,9 +1,6 @@
-<p align="center">
-  <img src="docs/img/00-banner.jpg" alt="Mastering Mixology Extended banner" width="100%">
-</p>
-<h1 align="center">Mastering Mixology Extended</h1>
+<h1 align="center">Another Mixology Plugin</h1>
 
-Mastering Mixology Extended is a RuneLite plugin for the Mastering Mixology minigame. Tell it which rewards you are saving resin for and it shows you which orders are worth brewing, how long each reward will take, and where to put a digweed when one spawns. It then walks you through the mixing itself — the next lever, the vessel, the station, the conveyor belt — and can block the clicks that would waste a paste or a potion. It builds on [Hexagon's Mastering Mixology plugin](https://github.com/hex-agon/mastering-mixology).
+Another Mixology Plugin (AMP) is a RuneLite plugin for the Mastering Mixology minigame. Tell it which rewards you are saving resin for and it shows you which orders are worth brewing, how long each reward will take, and where to put a digweed when one spawns. It then walks you through the mixing itself — the next lever, the vessel, the station, the conveyor belt — and can block the clicks that would waste a paste or a potion. It builds on [Hexagon's Mastering Mixology plugin](https://github.com/hex-agon/mastering-mixology) and [PDBoegel's Mastering Mixology Extended](https://github.com/PDBoegel/mastering-mixology).
 
 ## Features
 
@@ -85,9 +82,9 @@ All of these are off by default; turn on the ones you want.
 
   Only the next lever can be pulled, and the vessel won't mix three pastes that make no potion for an open order. If the vessel already holds pastes that match no order, every lever stays pullable so you can't get stuck, and a quick double click can't slip a second paste through.
 
-- **Lock idle and running stations**
+- **Lock idle stations**
 
-  Stop clicks on the Alembic, Agitator or Retort when it's empty and no order needs it with the potion you're holding. While the Agitator or Alembic is running, only its quick-action clicks get through.
+  Stop clicks on the Alembic, Agitator or Retort when it's empty and no order needs it with the potion you're holding.
 
 - **Cap Concentrate clicks**
 
@@ -105,13 +102,17 @@ All of these are off by default; turn on the ones you want.
 
 ## Credits
 
-- [Hexagon](https://github.com/hex-agon) wrote the original Mastering Mixology plugin.
-- [pdboegel](https://github.com/PDBoegel) built the Extended version: reward goals, the recommendation strategy and the accessibility options.
+Another Mixology Plugin is built on other people's work, used under the [BSD 2-Clause License](LICENSE):
+
+- [Hexagon](https://github.com/hex-agon) wrote the original [Mastering Mixology](https://github.com/hex-agon/mastering-mixology) plugin.
+- [PDBoegel](https://github.com/PDBoegel) built [Mastering Mixology Extended](https://github.com/PDBoegel/mastering-mixology): reward goals, the recommendation strategy and the accessibility options.
 - [Mitchole](https://github.com/Mitchole) contributed misclick protection.
+
+Everyone else who contributed code is listed in [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 ## Links
 
-- [Report a bug](https://github.com/Oveduumnakal/Mastering-Mixology-Extended-Plugin/issues/new?template=bug_report.yml)
-- [Request a feature](https://github.com/Oveduumnakal/Mastering-Mixology-Extended-Plugin/issues/new?template=feature_request.yml)
+- [Report a bug](https://github.com/Oveduumnakal/Another-Mixology-Plugin/issues/new?template=bug_report.yml)
+- [Request a feature](https://github.com/Oveduumnakal/Another-Mixology-Plugin/issues/new?template=feature_request.yml)
 - [Changelog](docs/CHANGELOG.md)
 - [Buy me a coffee](https://buymeacoffee.com/oveduumnakal)
