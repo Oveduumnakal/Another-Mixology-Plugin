@@ -21,6 +21,10 @@ version:
   like the Agitator and Alembic; it returns to the station colour on the last tick.
 * **Reward tracking**: the potion packs, Aldarium and the Chugging Barrel use a single quantity setting, where 0 means
   not tracked, instead of a tick box plus a quantity.
+* **Lock Agitator / Alembic while running** (Misclick protection, off by default): consumes clicks on a running
+  station except during its quick-action window, which lets one click through on the Alembic and one per tick of
+  the Agitator's two-tick window. Clicking a tile or another object pauses the station, and the next click on it
+  resumes; interface clicks such as minimising the chat box keep the lock.
 * **Colors** section (was Accessibility), above Highlights. It holds *Use Letters* plus the paste, skip, station,
   quick-action and digweed colours.
   * Recipes are coloured blocks by default; *Use Letters* (off by default) shows M/A/L letters instead. It replaces

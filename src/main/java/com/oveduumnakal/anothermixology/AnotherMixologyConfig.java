@@ -627,11 +627,37 @@ public interface AnotherMixologyConfig extends Config
 
 	@ConfigItem(
 			section = MISCLICK_PROTECTION,
+			keyName = "lockAlembicWhileRunning",
+			name = "Lock Alembic while running",
+			description = "Makes the Alembic unclickable while it is processing a potion, except for one click "
+					+ "when its quick action is up",
+			position = 5
+	)
+	default boolean lockAlembicWhileRunning()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			section = MISCLICK_PROTECTION,
+			keyName = "lockAgitatorWhileRunning",
+			name = "Lock Agitator while running",
+			description = "Makes the Agitator unclickable while it is processing a potion, except for one click "
+					+ "per tick (two in total) when its quick action is up",
+			position = 6
+	)
+	default boolean lockAgitatorWhileRunning()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			section = MISCLICK_PROTECTION,
 			keyName = "leverClickProtection",
 			name = "Lever click protection",
 			description = "Only the next lever for the order you're mixing can be pulled.<br>"
 					+ "All levers stay pullable if the vessel holds pastes that match no order",
-			position = 5
+			position = 7
 	)
 	default boolean leverClickProtection()
 	{
@@ -644,7 +670,7 @@ public interface AnotherMixologyConfig extends Config
 			name = "Potion protection",
 			description = "Blocks mixing at the vessel when its three pastes don't make a potion for an open order.<br>"
 					+ "Turn this off to mix anyway",
-			position = 6
+			position = 8
 	)
 	default boolean potionProtection()
 	{

@@ -85,9 +85,9 @@ All of these are off by default; turn on the ones you want.
 
   Only the next lever can be pulled, and the vessel won't mix three pastes that make no potion for an open order. If the vessel already holds pastes that match no order, every lever stays pullable so you can't get stuck, and a quick double click can't slip a second paste through.
 
-- **Lock idle stations**
+- **Lock idle and running stations**
 
-  Stop clicks on the Alembic, Agitator or Retort when it's empty and no order needs it with the potion you're holding.
+  Stop clicks on the Alembic, Agitator or Retort when it's empty and no order needs it with the potion you're holding. While the Agitator or Alembic is running, only its quick-action clicks get through.
 
 - **Cap Concentrate clicks**
 
