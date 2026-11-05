@@ -2121,7 +2121,7 @@ public class AnotherMixologyPlugin extends Plugin
 	public void onPostMenuSort(PostMenuSort event)
 	{
 		var estimates = rewardEstimates;
-		if (client.isMenuOpen() || estimates == null || !isInLabRegion())
+		if (client.isMenuOpen() || estimates == null || !isInLabRegion() || !config.showRewardsPanel())
 			return;
 
 		var mouse = client.getMouseCanvasPosition();

@@ -3,6 +3,12 @@
 Another Mixology Plugin releases are numbered `X.Y` (milestone `Release X.Y`, tag `R-X.Y`). Entries below 1.0 are
 the history it inherits: `V<upstream>-extX.Y.Z` from Mastering Mixology Extended, the rest from Mastering Mixology.
 
+## 1.1
+* **Show rewards panel** setting: turn it off to hide the rewards panel. Orders are still coloured brew or skip for
+  the rewards you track, so you keep the recommendations without the countdown on screen (#95).
+* **Show reward times** setting: turn it off to drop the estimated-time column from the rewards panel. The panel
+  gets narrower to match (#95).
+
 ## 1.0
 First release as Another Mixology Plugin, built from Mastering Mixology Extended V1.9.1-ext1.1.0. Changes from that
 version:

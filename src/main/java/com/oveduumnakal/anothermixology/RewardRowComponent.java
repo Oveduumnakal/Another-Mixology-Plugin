@@ -12,7 +12,8 @@ import net.runelite.client.ui.overlay.components.TextComponent;
 
 /**
  * One row of the rewards panel: the reward's icon and name, its progress percent on the right, and between them its
- * estimated time, centred in a slot every row shares so the times form one column.
+ * estimated time, centred in a slot every row shares so the times form one column. A row without a time leaves the
+ * slot out.
  */
 class RewardRowComponent implements LayoutableRenderableEntity
 {
@@ -39,6 +40,7 @@ class RewardRowComponent implements LayoutableRenderableEntity
 
 	/**
 	 * @param icon        the reward icon, or null for a row without one
+	 * @param time        the estimated time, or null for a row without the time column
 	 * @param labelColumn width of the name column, shared by every row so the times line up
 	 */
 	RewardRowComponent(BufferedImage icon, String label, String time, Color timeColor, String percent,
@@ -74,12 +76,16 @@ class RewardRowComponent implements LayoutableRenderableEntity
 		{
 			var metrics = graphics.getFontMetrics();
 			int numberBaseline = OutlinedProgressBarComponent.centeredBaseline(graphics, y, HEIGHT);
-			int labelEnd = x + ICON_COLUMN + labelColumn;
-			int percentStart = x + width - metrics.stringWidth(WIDEST_PERCENT);
-			int slotWidth = metrics.stringWidth(WIDEST_TIME);
-			int slotX = labelEnd + (percentStart - labelEnd - slotWidth) / 2;
-			int timeX = slotX + (slotWidth - metrics.stringWidth(time)) / 2;
-			drawText(graphics, time, timeX, numberBaseline, timeColor);
+			if (time != null)
+			{
+				int labelEnd = x + ICON_COLUMN + labelColumn;
+				int percentStart = x + width - metrics.stringWidth(WIDEST_PERCENT);
+				int slotWidth = metrics.stringWidth(WIDEST_TIME);
+				int slotX = labelEnd + (percentStart - labelEnd - slotWidth) / 2;
+				int timeX = slotX + (slotWidth - metrics.stringWidth(time)) / 2;
+				drawText(graphics, time, timeX, numberBaseline, timeColor);
+			}
+
 			drawText(graphics, percent, x + width - metrics.stringWidth(percent), numberBaseline, percentColor);
 		});
 
