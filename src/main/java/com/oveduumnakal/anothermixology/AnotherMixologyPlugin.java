@@ -134,8 +134,6 @@ public class AnotherMixologyPlugin extends Plugin
 	private static final int COMPONENT_POTION_ORDERS_GROUP_ID = InterfaceID.MM_OVERLAY;
 	private static final int COMPONENT_POTION_ORDERS = InterfaceID.MmOverlay.CONTENT;
 
-	private static final int LABS_REGION_ID = 5521;
-	private static final int LABS_REGION_PLANE = 0;
 
 	private static final int FOUND_GEM = 2655;
 
@@ -391,14 +389,12 @@ public class AnotherMixologyPlugin extends Plugin
 	}
 
 	/**
-	 * @return true if the player is in the labs region (the area where the minigame takes place)
-	 * the isInlab method only checks if they are inside the actual lab room where the UI is active
+	 * Returns whether the potion orders are on screen: the game's orders list, or the plugin's orders panel in its
+	 * place once there are orders to show. The rewards panel is shown only alongside them.
 	 */
-	public boolean isInLabRegion()
+	boolean isOrdersPanelVisible()
 	{
-		Player player = client.getLocalPlayer();
-		return player != null && player.getWorldLocation().getRegionID() == LABS_REGION_ID
-				&& player.getWorldLocation().getPlane() == LABS_REGION_PLANE;
+		return inLab && (!config.hideOrdersPanel() || !potionOrders.isEmpty());
 	}
 
 	@Provides
@@ -2121,7 +2117,7 @@ public class AnotherMixologyPlugin extends Plugin
 	public void onPostMenuSort(PostMenuSort event)
 	{
 		var estimates = rewardEstimates;
-		if (client.isMenuOpen() || estimates == null || !isInLabRegion() || !config.showRewardsPanel())
+		if (client.isMenuOpen() || estimates == null || !isOrdersPanelVisible() || !config.showRewardsPanel())
 			return;
 
 		var mouse = client.getMouseCanvasPosition();

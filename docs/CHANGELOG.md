@@ -8,6 +8,8 @@ the history it inherits: `V<upstream>-extX.Y.Z` from Mastering Mixology Extended
   the rewards you track, so you keep the recommendations without the countdown on screen (#95).
 * **Show reward times** setting: turn it off to drop the estimated-time column from the rewards panel. The panel
   gets narrower to match (#95).
+* The rewards panel now shows only while the potion orders do (#96). It used to appear anywhere in the lab's map
+  area, before the orders list was up.
 
 ## 1.0
 First release as Another Mixology Plugin, built from Mastering Mixology Extended V1.9.1-ext1.1.0. Changes from that
