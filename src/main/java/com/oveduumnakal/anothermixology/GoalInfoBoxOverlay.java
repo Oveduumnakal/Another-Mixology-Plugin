@@ -21,7 +21,8 @@ import net.runelite.client.util.QuantityFormatter;
 
 /**
  * The rewards panel: a row per tracked reward with its icon, estimated time to completion and progress, a row for all
- * of them together, then a progress bar per resin colour. Faint lines separate the sections.
+ * of them together, then a progress bar per resin colour. Faint lines separate the sections. The Show rewards panel
+ * setting hides it, and Show reward times drops the time column.
  */
 class GoalInfoBoxOverlay extends OverlayPanel
 {
@@ -71,7 +72,7 @@ class GoalInfoBoxOverlay extends OverlayPanel
 	{
 		var goal = plugin.getGoal();
 		var estimates = plugin.rewardEstimates();
-		if (!goal.isMultiMode() || !plugin.isInLabRegion() || estimates == null)
+		if (!config.showRewardsPanel() || !goal.isMultiMode() || !plugin.isInLabRegion() || estimates == null)
 			return null;
 
 		graphics.setFont(FontManager.getRunescapeSmallFont());
@@ -80,21 +81,21 @@ class GoalInfoBoxOverlay extends OverlayPanel
 		for (var row : estimates.rows)
 			labelColumn = Math.max(labelColumn, metrics.stringWidth(row.label));
 
+		boolean showTimes = config.showRewardTimes();
 		var numberMetrics = graphics.getFontMetrics(NumberFont.matching(graphics, graphics.getFont()));
-		int width = RewardRowComponent.ICON_COLUMN + labelColumn + RewardRowComponent.GAP
-				+ numberMetrics.stringWidth(RewardRowComponent.WIDEST_TIME) + RewardRowComponent.GAP
-				+ numberMetrics.stringWidth(RewardRowComponent.WIDEST_PERCENT) + BORDER_SIZE * 2;
-		panelComponent.setPreferredSize(new Dimension(Math.max(MIN_WIDTH, width), 0));
+		int width = panelWidth(labelColumn, numberMetrics.stringWidth(RewardRowComponent.WIDEST_TIME),
+				numberMetrics.stringWidth(RewardRowComponent.WIDEST_PERCENT), showTimes);
+		panelComponent.setPreferredSize(new Dimension(width, 0));
 
 		long now = plugin.playedMillis();
 		int rewards = estimates.rows.size() - 1;
 		for (int i = 0; i < rewards; i++)
-			panelComponent.getChildren().add(rowComponent(estimates, i, labelColumn, now));
+			panelComponent.getChildren().add(rowComponent(estimates, i, labelColumn, now, showTimes));
 
 		if (rewards > 1)
 		{
 			panelComponent.getChildren().add(new SeparatorComponent());
-			panelComponent.getChildren().add(rowComponent(estimates, rewards, labelColumn, now));
+			panelComponent.getChildren().add(rowComponent(estimates, rewards, labelColumn, now, showTimes));
 		}
 
 		panelComponent.getChildren().add(new SeparatorComponent());
@@ -104,14 +105,37 @@ class GoalInfoBoxOverlay extends OverlayPanel
 		return super.render(graphics);
 	}
 
-	/** Builds a reward row, its time counted down to {@code now}, in {@link PlayClock} milliseconds played. */
-	private RewardRowComponent rowComponent(RewardEstimates estimates, int index, int labelColumn, long now)
+	/**
+	 * Returns the panel width: the icon, name, time and percent columns with a gap between each, plus the border, and
+	 * never less than {@code MIN_WIDTH}. Without times the time column and its gap are left out.
+	 */
+	static int panelWidth(int labelColumn, int timeWidth, int percentWidth, boolean showTimes)
+	{
+		int width = RewardRowComponent.ICON_COLUMN + labelColumn + RewardRowComponent.GAP + percentWidth
+				+ BORDER_SIZE * 2;
+		if (showTimes)
+			width += timeWidth + RewardRowComponent.GAP;
+
+		return Math.max(MIN_WIDTH, width);
+	}
+
+	/**
+	 * Builds a reward row, its time counted down to {@code now}, in {@link PlayClock} milliseconds played. Without
+	 * times the row has no time column.
+	 */
+	private RewardRowComponent rowComponent(RewardEstimates estimates, int index, int labelColumn, long now,
+			boolean showTimes)
 	{
 		var row = estimates.rows.get(index);
 		double seconds = estimates.seconds[index];
 		String time;
 		Color timeColor;
-		if (row.ready())
+		if (!showTimes)
+		{
+			time = null;
+			timeColor = null;
+		}
+		else if (row.ready())
 		{
 			time = "Ready";
 			timeColor = READY_COLOR;

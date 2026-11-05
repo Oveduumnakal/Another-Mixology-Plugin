@@ -20,7 +20,7 @@ public interface AnotherMixologyConfig extends Config
 	@ConfigSection(
 			name = "Colors",
 			description = "Recipe style and the colours used for pastes, skipped orders and highlights",
-			position = 11
+			position = 13
 	)
 	String COLORS = "Colors";
 
@@ -136,7 +136,7 @@ public interface AnotherMixologyConfig extends Config
 	@ConfigSection(
 			name = "Highlights",
 			description = "Highlighting related configuration",
-			position = 12
+			position = 14
 	)
 	String HIGHLIGHTS = "Highlights";
 
@@ -363,8 +363,10 @@ public interface AnotherMixologyConfig extends Config
 					+ "The overlay shows progress toward the combined cost; the notification fires when you meet "
 					+ "it.<br>"
 					+ "Rewards are listed in the order you tick them; right-click the rewards panel to move "
-					+ "one up or down.",
-			position = 13
+					+ "one up or down.<br>"
+					+ "With Show rewards panel off, the panel is hidden but orders are still coloured brew or skip "
+					+ "for these rewards.",
+			position = 15
 	)
 	String REWARD_TRACKING = "RewardTracking";
 
@@ -530,13 +532,36 @@ public interface AnotherMixologyConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "showRewardsPanel",
+			name = "Show rewards panel",
+			description = "Show the rewards panel in the lab.<br>"
+					+ "Off hides it; orders are still coloured brew or skip for the rewards you track.",
+			position = 9
+	)
+	default boolean showRewardsPanel()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+			keyName = "showRewardTimes",
+			name = "Show reward times",
+			description = "Show each reward's estimated time to finish in the rewards panel",
+			position = 10
+	)
+	default boolean showRewardTimes()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 			keyName = "showProgress",
 			name = "Reward Progress",
 			description = "What the middle of each resin bar in the rewards panel shows.<br>"
 					+ "Percent: how far the colour is to its target.<br>"
 					+ "Number: the resin still needed.<br>"
 					+ "None: nothing.",
-			position = 9
+			position = 11
 	)
 	default ProgressLabel showProgress()
 	{
@@ -550,7 +575,7 @@ public interface AnotherMixologyConfig extends Config
 					+ "In order: rewards are bought top to bottom, so each counts only the resin left after the "
 					+ "ones above it.<br>"
 					+ "Each on its own: every reward's time and percent count all your resin.",
-			position = 10
+			position = 12
 	)
 	default RewardOrder rewardOrder()
 	{

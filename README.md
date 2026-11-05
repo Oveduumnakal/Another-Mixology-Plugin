@@ -43,7 +43,7 @@ Another Mixology Plugin (AMP) is a RuneLite plugin for the Mastering Mixology mi
 
 - **Know when you can afford it**
 
-  Get a notification the moment your resin covers everything you ticked. Choose what the middle of each resin bar shows with *Reward Progress*: the percent, the resin still needed, or nothing.
+  Get a notification the moment your resin covers everything you ticked. Choose what the middle of each resin bar shows with *Reward Progress*: the percent, the resin still needed, or nothing. Turn off *Show reward times* to drop the time column, or *Show rewards panel* to hide the panel; orders are still coloured brew or skip for the rewards you track.
 
 ### Digweed
 

@@ -23,4 +23,18 @@ public class GoalInfoBoxOverlayTest
 		assertEquals("(7,500)", GoalInfoBoxOverlay.centerLabel(ProgressLabel.NUMBER, data));
 		assertEquals("", GoalInfoBoxOverlay.centerLabel(ProgressLabel.NONE, data));
 	}
+
+	@Test
+	public void hidingTimesDropsTheTimeColumnAndItsGap()
+	{
+		int withTimes = GoalInfoBoxOverlay.panelWidth(200, 60, 30, true);
+		int withoutTimes = GoalInfoBoxOverlay.panelWidth(200, 60, 30, false);
+		assertEquals(60 + RewardRowComponent.GAP, withTimes - withoutTimes);
+	}
+
+	@Test
+	public void panelNeverNarrowerThanItsMinimum()
+	{
+		assertEquals(GoalInfoBoxOverlay.panelWidth(0, 0, 0, false), GoalInfoBoxOverlay.panelWidth(10, 60, 30, true));
+	}
 }
