@@ -87,7 +87,7 @@ public class OrdersPanelOverlay extends Overlay
 	{
 		var orders = plugin.potionOrders();
 
-		if (!config.hideOrdersPanel() || !plugin.isInLab() || orders.isEmpty())
+		if (!config.hideOrdersPanel() || !plugin.isOrdersPanelVisible())
 			return null;
 
 		var nameFont = FontManager.getRunescapeFont();

@@ -338,6 +338,31 @@ public class AnotherMixologyPluginLogicTest
 	}
 
 	@Test
+	public void ordersPanelIsVisibleOnlyInsideTheLab()
+	{
+		when(config.hideOrdersPanel()).thenReturn(true);
+		orders(PotionType.MARLEYS_MOONLIGHT);
+		enterLab();
+		assertTrue(plugin.isOrdersPanelVisible());
+
+		plugin.onWidgetClosed(new WidgetClosed(InterfaceID.MM_OVERLAY, 0, false));
+		assertFalse(plugin.isOrdersPanelVisible());
+	}
+
+	@Test
+	public void ordersPanelWithNoOrdersIsVisibleOnlyAsTheGamesList()
+	{
+		orders();
+		enterLab();
+
+		when(config.hideOrdersPanel()).thenReturn(true);
+		assertFalse(plugin.isOrdersPanelVisible());
+
+		when(config.hideOrdersPanel()).thenReturn(false);
+		assertTrue(plugin.isOrdersPanelVisible());
+	}
+
+	@Test
 	public void theGoalIsWorkedOutOnEnteringTheLab()
 	{
 		when(config.trackReagentPouch()).thenReturn(true);

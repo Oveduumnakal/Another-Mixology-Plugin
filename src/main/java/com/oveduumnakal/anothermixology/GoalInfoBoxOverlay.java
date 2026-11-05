@@ -21,8 +21,8 @@ import net.runelite.client.util.QuantityFormatter;
 
 /**
  * The rewards panel: a row per tracked reward with its icon, estimated time to completion and progress, a row for all
- * of them together, then a progress bar per resin colour. Faint lines separate the sections. The Show rewards panel
- * setting hides it, and Show reward times drops the time column.
+ * of them together, then a progress bar per resin colour. Faint lines separate the sections. It shows only while the
+ * potion orders do; the Show rewards panel setting hides it, and Show reward times drops the time column.
  */
 class GoalInfoBoxOverlay extends OverlayPanel
 {
@@ -72,7 +72,7 @@ class GoalInfoBoxOverlay extends OverlayPanel
 	{
 		var goal = plugin.getGoal();
 		var estimates = plugin.rewardEstimates();
-		if (!config.showRewardsPanel() || !goal.isMultiMode() || !plugin.isInLabRegion() || estimates == null)
+		if (!config.showRewardsPanel() || !goal.isMultiMode() || !plugin.isOrdersPanelVisible() || estimates == null)
 			return null;
 
 		graphics.setFont(FontManager.getRunescapeSmallFont());
